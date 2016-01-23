@@ -1,8 +1,9 @@
 package de.haumacher.netsim;
 
 class Console {
-	
+
 	static long lastOut;
+
 	static Thread daemon;
 
 	public static synchronized void println(String line) {
@@ -28,12 +29,12 @@ class Console {
 				}
 
 				long lastAck = 0;
-				
+
 				private void tryRun() throws InterruptedException {
 					while (true) {
 						long out = waitForOutput();
 						awaitTimeout(out);
-						
+
 						System.out.println();
 					}
 				}
@@ -70,5 +71,5 @@ class Console {
 			Console.class.notifyAll();
 		}
 	}
-	
+
 }

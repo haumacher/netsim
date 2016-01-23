@@ -22,15 +22,14 @@ public class Main {
 		Settings settings = new Settings();
 		Server server = new Server(settings);
 		new Thread(server, "dispatcher").start();
-		
-		
+
 		BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
 		while (true) {
 			List<String> arguments = readCommand(console);
 			if (arguments.isEmpty()) {
 				continue;
 			}
-			
+
 			String command = arguments.get(0);
 			if ("list".equals(command)) {
 				if (arguments.size() != 1) {
@@ -83,9 +82,10 @@ public class Main {
 		}
 	}
 
-	static Pattern PART_PATTERN = 
-			Pattern.compile("\\s*" + "(?:" + "([^\\s'\"]+)" + "|" + "(?:" + "\"([^\"]*)\"" + ")" + "|"  + "(?:" + "'([^']*)'" + ")" + ")" + "\\s*");
-	
+	static Pattern PART_PATTERN =
+		Pattern.compile("\\s*" + "(?:" + "([^\\s'\"]+)" + "|" + "(?:" + "\"([^\"]*)\"" + ")" + "|" + "(?:"
+			+ "'([^']*)'" + ")" + ")" + "\\s*");
+
 	private static List<String> readCommand(BufferedReader console) throws IOException {
 		String line = console.readLine();
 
@@ -106,5 +106,5 @@ public class Main {
 		assert matcher.regionStart() == matcher.regionEnd() || line.trim().isEmpty();
 		return arguments;
 	}
-	
+
 }
