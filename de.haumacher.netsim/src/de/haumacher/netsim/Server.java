@@ -18,7 +18,10 @@ class Server implements Runnable {
 		
 		private final ConcurrentHashMap<String, Forwarder> _forwarders = new ConcurrentHashMap<>();
 
-		public Server() throws IOException {
+		private final Settings _settings;
+
+		public Server(Settings settings) throws IOException {
+			_settings = settings;
 			_server = new ServerSocket(8077);
 		}
 		
@@ -55,8 +58,8 @@ class Server implements Runnable {
 			final int id = _nextId++;
 			Socket serverSide = new Socket();
 			serverSide.connect(new InetSocketAddress(Inet4Address.getLocalHost(), 8080));
-			Forwarder requestForwarder = new Forwarder("c" + id, clientSide, serverSide.getOutputStream());
-			Forwarder responseForwarder = new Forwarder("s" + id, serverSide, clientSide.getOutputStream());
+			Forwarder requestForwarder = new Forwarder(_settings, "c" + id, clientSide, serverSide.getOutputStream());
+			Forwarder responseForwarder = new Forwarder(_settings, "s" + id, serverSide, clientSide.getOutputStream());
 			
 			requestForwarder.setOther(responseForwarder);
 			requestForwarder.setMaster(this);
