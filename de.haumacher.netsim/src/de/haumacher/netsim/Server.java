@@ -82,7 +82,7 @@ class Server implements Runnable {
 			}
 			
 			forwarder.close();
-			return false;
+			return true;
 		}
 		
 	}
