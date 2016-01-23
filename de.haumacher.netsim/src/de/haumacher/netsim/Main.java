@@ -19,6 +19,8 @@ public class Main {
 	 * Main method to start the proxy.
 	 */
 	public static void main(String[] args) throws IOException {
+		Console.println("Starting proxy, type 'help' for help.");
+
 		Settings settings = new Settings();
 		Server server = new Server(settings);
 		new Thread(server, "dispatcher").start();
@@ -33,43 +35,43 @@ public class Main {
 			String command = arguments.get(0);
 			if ("list".equals(command)) {
 				if (arguments.size() != 1) {
-					System.err.println("syntax: list");
+					System.err.println("Syntax: list");
 				}
 				server.list();
 			} else if ("kill".equals(command)) {
 				if (arguments.size() < 2) {
-					System.err.println("syntax: kill <id>+");
+					System.err.println("Syntax: kill <id>+");
 				} else {
 					for (int n = 1, cnt = arguments.size(); n < cnt; n++) {
 						String id = arguments.get(n);
 						boolean ok = server.kill(id);
 						if (!ok) {
-							System.err.println("error: not active: " + id);
+							System.err.println("Error: not active: " + id);
 						}
 					}
 				}
 			} else if ("enable".equals(command)) {
 				if (arguments.size() != 2) {
-					System.err.println("syntax: enable <property>");
+					System.err.println("Syntax: enable <property>");
 				} else {
 					String property = arguments.get(1);
 					setProperty(settings, property, true);
 				}
 			} else if ("disable".equals(command)) {
 				if (arguments.size() != 2) {
-					System.err.println("syntax: disable <property>");
+					System.err.println("Syntax: disable <property>");
 				} else {
 					String property = arguments.get(1);
 					setProperty(settings, property, false);
 				}
 			} else if ("help".equals(command)) {
 				if (arguments.size() > 1) {
-					System.err.println("syntax: help");
+					System.err.println("Syntax: help");
 				} else {
-					System.out.println("commands: list, kill, enable, disable, help");
+					Console.println("Commands: list, kill, enable, disable, help");
 				}
 			} else {
-				System.err.println("syntax: unknown command");
+				System.err.println("Syntax: unknown command");
 			}
 		}
 	}
@@ -78,7 +80,7 @@ public class Main {
 		if ("symmetric-shutdown".equals(property)) {
 			settings.setSymmetricShutdown(state);
 		} else {
-			System.err.println("syntax: unknown property");
+			System.err.println("Syntax: unknown property");
 		}
 	}
 

@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 class Server implements Runnable {
@@ -26,13 +27,13 @@ class Server implements Runnable {
 
 	@Override
 	public void run() {
-		Console.println("started");
+		Console.println("Proxy started.");
 		try {
 			while (true) {
 				accept();
 			}
 		} finally {
-			Console.println("stopped");
+			Console.println("Proxy stopped.");
 		}
 	}
 
@@ -70,7 +71,12 @@ class Server implements Runnable {
 	}
 
 	public void list() {
-		ArrayList<String> keys = new ArrayList<>(_forwarders.keySet());
+		Set<String> keySet = _forwarders.keySet();
+		if (keySet.isEmpty()) {
+			Console.println("No open connections.");
+			return;
+		}
+		ArrayList<String> keys = new ArrayList<>(keySet);
 		Collections.sort(keys);
 		for (String key : keys) {
 			Console.println(key);
